@@ -69,3 +69,20 @@ session
     );
     return callback(false);
   });
+
+// A CSP -- Content Security Policy -- is also a way to do this.
+// See https://www.electronjs.org/docs/latest/tutorial/security#7-define-a-content-security-policy .
+
+// There's a somewhat bonkers callback for 'will-attach-webview' which seems
+// like it should be intercepted in order to keep those under control.
+// See https://www.electronjs.org/docs/latest/tutorial/security#12-verify-webview-options-before-creation .
+
+// Prevent navigation entirely.
+// See https://www.electronjs.org/docs/latest/tutorial/security#13-disable-or-limit-navigation .
+
+// There's a tip in here about creating a custom protocol.
+// It's a little sparse on details.
+// But I think I probably want to do this.
+
+// ... oh good lord the list just keeps going.
+// There is a LOT of stuff to do to make electron safe.
