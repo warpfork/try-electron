@@ -32,6 +32,15 @@ contextBridge.exposeInMainWorld("versions", {
   // we can also expose variables, not just functions
 });
 
-contextBridge.exposeInMainWorld("zow", {
+// ... I want to either assert types right here,
+// or else be importing from some other file that did so.
+// And I'm sitting here seriously thinking about using sed on this damn file to have a shot at it.
+// Please tell me I'm missing something.
+// If I have to keep this magically in sync with interfaces brazenly declared in the renderer, entirely by hand, I'm going to be so sad.
+//
+// ... ugh.  Then again, `Electron.IpcRenderer.invoke` just leaves us holding a `Promise<any>` anyway, which is pretty dang low value.
+let zow = {
   ping: () => ipcRenderer.invoke("ping"),
-});
+};
+
+contextBridge.exposeInMainWorld("zow", zow);
