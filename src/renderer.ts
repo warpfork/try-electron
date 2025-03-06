@@ -21,8 +21,8 @@ function sayVersionInfo() {
 }
 sayVersionInfo();
 
-import type { Zow } from "./zow.ts";
-import { presume_Zow } from "./zow.ts";
+import type { Zow } from "./lib/zow.ts";
+import { presume_Zow } from "./lib/zow.ts";
 
 const func = async () => {
   if (!("zow" in window)) {
