@@ -9,10 +9,12 @@
     "start": "rm -rf dist/* && bun run build && time ./lib/electron/electron ./dist/main.js"
   },
   "type": "module",
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/electron": "^1"
+  },
   "dependencies": {},
   "peerDependencies": {
-    "electron": "^35",
+    // "electron": "^35",
     "typescript": "^5.0.0"
   }
 }

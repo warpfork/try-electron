@@ -1,4 +1,7 @@
 import { app, BrowserWindow } from "electron";
+// import wtf from "electron";
+
+console.log("hellooo", app, BrowserWindow);
 
 app.whenReady().then(() => {
   var win: Electron.BrowserWindow = new BrowserWindow({
