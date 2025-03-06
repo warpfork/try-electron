@@ -6,3 +6,7 @@
 export interface Zow {
   ping(): Promise<string>;
 }
+
+export function presume_Zow(x: any): x is Zow {
+  return true;
+}

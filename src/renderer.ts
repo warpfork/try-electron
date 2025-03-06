@@ -21,8 +21,18 @@ function sayVersionInfo() {
 }
 sayVersionInfo();
 
+import type { Zow } from "./zow.ts";
+import { presume_Zow } from "./zow.ts";
+
 const func = async () => {
-  const response = await window.zow.ping();
+  if (!("zow" in window)) {
+    return;
+  }
+  if (!presume_Zow(window.zow)) {
+    return;
+  }
+  let zow: Zow = window.zow;
+  const response = await zow.ping();
   console.log(response); // prints out 'pong'
 };
 
