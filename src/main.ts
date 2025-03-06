@@ -8,7 +8,11 @@ app.whenReady().then(() => {
     height: 600,
   });
 
-  win.loadFile("index.html");
+  // This is apparently relative to wherever the main file is.
+  // Which is now in a dist dir.
+  // So we either need to start copying static files over during build, or...
+  // for now, fuckkit, we're just gonna refer back to source paths.
+  win.loadFile("../src/index.html");
 
   //app.quit();
 });

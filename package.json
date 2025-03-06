@@ -5,7 +5,8 @@
   "scripts": {
     "prep": "ELECTRON_SKIP_BINARY_DOWNLOAD=1 bun install",
     "build": "bun build ./src/*.ts --external=electron --target=node --outdir=./dist/",
-    "watch": "bun build ./src/*.ts --external=electron --target=node --outdir=./dist/ --watch",
+    "watch": "bun run build && bun build --watch --no-clear-screen ./src/*.ts --external=electron --target=node --outdir=./dist/ &",
+    "startwatch": "rm -rf dist/* && bun run watch && time ./lib/electron/electron ./dist/main.js",
     "start": "rm -rf dist/* && bun run build && time ./lib/electron/electron ./dist/main.js"
   },
   "type": "module",
