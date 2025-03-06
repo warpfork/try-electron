@@ -1,0 +1,17 @@
+{
+  "name": "try-electron35",
+  "version": "0.0.1",
+  "description": "Hello World!",
+  "scripts": {
+    "build": "bun build ./src/*.js --target=node",
+    "watch": "bun build ./src/*.js --target=node --watch",
+    "start": "bun run build && time ./lib/electron/electron ./dist/main.js"
+  },
+  "devDependencies": {
+    "electron": "^35.1.0"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
