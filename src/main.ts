@@ -1,7 +1,11 @@
 import { app, BrowserWindow } from "electron/main";
 import path from "node:path";
 
-// console.log("hellooo", app, BrowserWindow);
+// console.log("hellooo app!", app);
+// console.log("app path: ", app.getAppPath());
+// console.log("path(home): ", app.getPath("home"));
+
+// app.relaunch();
 
 app.whenReady().then(() => {
   var win: Electron.BrowserWindow = new BrowserWindow({
@@ -13,9 +17,9 @@ app.whenReady().then(() => {
       // if the file doesn't exist?  that doesn't show up except in the console in-browser -- no sign on stderr.
       // i feel like i'm being trolled.
       //
-      // and "__dirname" gets baked by bun as a path in the src tree, which is... not the desired thing here.
-      // so this still doesn't work right, yet.  something else is required.
-      preload: path.join(__dirname, "preload.js"),
+      // aaand now it is mad that we're using import statements outside a module.  okaaaay?
+      // this import vs require stuff is arcane to me and i am not in love with it.
+      preload: path.join(app.getAppPath(), "preload.js"),
     },
   });
 
