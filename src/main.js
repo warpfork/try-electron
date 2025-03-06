@@ -49,6 +49,8 @@ app.whenReady().then(() => {
 // > and enable `contextIsolation`.
 // ... both of which for WebContentsView have been the default for a good while now, happily.
 // (Wtf is contextIsolation?  It's basically "plz no override global vars across renderers".  So... baseline sanity.)
+// ... Also, webview tags seem to be shunned.  https://www.electronjs.org/docs/latest/tutorial/web-embeds is speaking of them very harshly,
+// and goes so far as to call them unsupported and having potential to be dropped.  (Considering their security issues... yeah, I can see reasons for that.)
 //
 // OOH, I think this is it: https://www.electronjs.org/docs/latest/tutorial/security#5-handle-session-permission-requests-from-remote-content
 //
@@ -76,6 +78,7 @@ session
 // There's a somewhat bonkers callback for 'will-attach-webview' which seems
 // like it should be intercepted in order to keep those under control.
 // See https://www.electronjs.org/docs/latest/tutorial/security#12-verify-webview-options-before-creation .
+// Oh wait!  Webview tags aren't enabled by default in a BrowserWindow.  So, I can forget about this.
 
 // Prevent navigation entirely.
 // See https://www.electronjs.org/docs/latest/tutorial/security#13-disable-or-limit-navigation .
