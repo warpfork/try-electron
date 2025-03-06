@@ -17,9 +17,8 @@ app.whenReady().then(() => {
       // if the file doesn't exist?  that doesn't show up except in the console in-browser -- no sign on stderr.
       // i feel like i'm being trolled.
       //
-      // aaand now it is mad that we're using import statements outside a module.  okaaaay?
-      // this import vs require stuff is arcane to me and i am not in love with it.
-      preload: path.join(app.getAppPath(), "preload.js"),
+      // preload is also a plain js file because it's not allowed to be a module.  see the file for comments on that.
+      preload: path.join(app.getAppPath(), "../src/preload.js"),
     },
   });
 
