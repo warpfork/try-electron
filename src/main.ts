@@ -19,7 +19,7 @@ app.whenReady().then(() => {
       //
       // aaand now it is mad that we're using import statements outside a module.  okaaaay?
       // this import vs require stuff is arcane to me and i am not in love with it.
-      preload: path.join(app.getAppPath(), "preload.js"),
+      preload: path.join(app.getAppPath(), "preload.mjs"),
     },
   });
 
