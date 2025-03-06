@@ -6,6 +6,10 @@ app.whenReady().then(() => {
   var win: Electron.BrowserWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      // yes, electron requires preload paths be absolute.  brilliant.  amazing.  reasonable.  (no.)
+      preload: "preload.js",
+    },
   });
 
   // This is apparently relative to wherever the main file is.
