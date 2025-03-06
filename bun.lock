@@ -3,10 +3,8 @@
   "workspaces": {
     "": {
       "name": "try-electron35",
-      "devDependencies": {
-        "electron": "^35",
-      },
       "peerDependencies": {
+        "electron": "^35",
         "typescript": "^5.0.0",
       },
     },

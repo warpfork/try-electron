@@ -4,8 +4,8 @@
   "description": "Hello World!",
   "scripts": {
     "prep": "bun install",
-    "build": "bun build ./src/*.js --target=node --outdir=./dist/",
-    "watch": "bun build ./src/*.js --target=node --outdir=./dist/ --watch",
+    "build": "bun build ./src/*.ts --target=node --outdir=./dist/",
+    "watch": "bun build ./src/*.ts --target=node --outdir=./dist/ --watch",
     "start": "rm -rf dist/* && bun run build && time ./lib/electron/electron ./dist/main.js"
   },
   "type": "module",
