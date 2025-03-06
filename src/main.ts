@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron/main";
+import { app, BrowserWindow, ipcMain } from "electron/main";
 import path from "node:path";
 
 // console.log("hellooo app!", app);
@@ -8,6 +8,9 @@ import path from "node:path";
 // app.relaunch();
 
 app.whenReady().then(() => {
+  // Register these before any window is spawned that might use them.
+  ipcMain.handle("ping", () => "pong");
+
   var win: Electron.BrowserWindow = new BrowserWindow({
     width: 800,
     height: 600,

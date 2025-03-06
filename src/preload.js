@@ -21,7 +21,7 @@
 // and make types for that, and use those types in the main process and in the renderers,
 // and just move on.
 
-const { contextBridge } = require("electron");
+const { contextBridge, ipcRenderer } = require("electron");
 
 // Stuff exposed in the "main world" is also available in the chromium debug console!
 
@@ -30,4 +30,8 @@ contextBridge.exposeInMainWorld("versions", {
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
   // we can also expose variables, not just functions
+});
+
+contextBridge.exposeInMainWorld("zow", {
+  ping: () => ipcRenderer.invoke("ping"),
 });
