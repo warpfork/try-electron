@@ -3,15 +3,16 @@
   "version": "0.0.1",
   "description": "Hello World!",
   "scripts": {
-    "build": "bun build ./src/*.js --target=node",
-    "watch": "bun build ./src/*.js --target=node --watch",
-    "start": "bun run build && time ./lib/electron/electron ./dist/main.js"
+    "prep": "bun install",
+    "build": "bun build ./src/*.js --target=node --outdir=./dist/",
+    "watch": "bun build ./src/*.js --target=node --outdir=./dist/ --watch",
+    "start": "rm -rf dist/* && bun run build && time ./lib/electron/electron ./dist/main.js"
   },
-  "devDependencies": {
-    "electron": "^35.1.0"
-  },
+  "type": "module",
+  "devDependencies": {},
   "dependencies": {},
   "peerDependencies": {
+    "electron": "^35",
     "typescript": "^5.0.0"
   }
 }

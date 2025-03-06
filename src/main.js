@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron/main");
+const { app, BrowserWindow } = require("electron");
 
 process.env.ELECTRON_ENABLE_SECURITY_WARNINGS = true;
 
@@ -57,7 +57,7 @@ app.whenReady().then(() => {
 
 // ... but this doesnt quite fly because "Session can only be received when app is ready",
 // and I haven't sussed beyond that yet.
-const { session } = require("electron/main");
+const { session } = require("electron");
 const { URL } = require("url");
 
 session
