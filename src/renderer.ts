@@ -50,17 +50,28 @@ declare global {
   interface Window {
     pow: {
       walkies: () => Promise<string>
-      counter: () => AsyncGenerator<number>
-      wat: () => any
+      counter: () => (() => Promise<{ val: string, done: boolean }>)
     };
   }
 }
+
+function buildIpcStream<T>(
+  borker: () => (() => Promise<{ val: T, done: boolean }>)
+): AsyncGenerator<T> {
+  return (async function* () {
+    let bork = borker();
+    let loop = true;
+    while (loop) {
+      let { val, done } = await bork();
+      loop = !done;
+      yield val;
+    }
+  })();
+}
+
 const sheesh = async () => {
   console.log(await window.pow.walkies());
   console.log("okay, now then")
-
-  console.log("wat:", window.pow.wat()) // IS an object.  DOES copy the properties.
-  // console.log("watplz:", window.pow.wat().plz()) // mysteriously DOES NOT have this method.  ...yeah, is not type Wat; is type Object.
 
   // sanity check, does this syntax literally even work.  okay, yes.
   // The thing can be cast to `AsyncIterable<number>` (e.g., you can get an iterator *from* it).
@@ -73,15 +84,14 @@ const sheesh = async () => {
     for (let i = 0; i < 3; i++) {
       yield i;
     }
-  })()
+  })();
   for await (const n of plzcount) {
     console.log("plzcounter = ", n)
   }
 
-  // and this... errors with "An object could not be cloned".  Okayyyyyyy
-  // the error points at the `.counter()` part.
-  for await (const n of window.pow.counter()) {
-    console.log("counter = ", n)
+  let whew = buildIpcStream(window.pow.counter);
+  for await (const n of whew) {
+    console.log("whew = ", n)
   }
 };
 sheesh();

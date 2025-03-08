@@ -60,20 +60,9 @@ contextBridge.exposeInMainWorld("zow", zow);
 let state = 0
 contextBridge.exposeInMainWorld("pow", {
   walkies: () => ipcRenderer.invoke("walkies"),
-  counter: () => (async function* () {
-    for (let i = 0; i < 4; i++) {
-      yield i;
-    }
-  })(),
-  wat: () => {
-    console.log("where does this happen?", state++)
-    let foo = new Wat();
-    console.log("the wat from the preload side:", foo)
-    return foo
-     },
+  counter: () => {
+    return (function(): Promise<{ val: string, done: boolean }> {
+      return Promise.resolve({ val: "one", done: true })
+    })
+  },
 });
-
-class Wat {
-  readonly hello = "hey?"
-  plz(): string { return "foo" }
-}
