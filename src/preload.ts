@@ -61,8 +61,11 @@ let state = 0
 contextBridge.exposeInMainWorld("pow", {
   walkies: () => ipcRenderer.invoke("walkies"),
   counter: () => {
+    const schlep = ["one", "two", "three"];
+    let state = 0;
     return (function(): Promise<{ val: string, done: boolean }> {
-      return Promise.resolve({ val: "one", done: true })
+      state++
+      return Promise.resolve({ val: schlep[state-1], done: state >= schlep.length })
     })
   },
 });
