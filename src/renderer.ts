@@ -63,6 +63,12 @@ const sheesh = async () => {
   // console.log("watplz:", window.pow.wat().plz()) // mysteriously DOES NOT have this method.  ...yeah, is not type Wat; is type Object.
 
   // sanity check, does this syntax literally even work.  okay, yes.
+  // The thing can be cast to `AsyncIterable<number>` (e.g., you can get an iterator *from* it).
+  // But without stating such, it is seen as `AsyncGenerator<number, void, unknown>`.
+  // `AsyncGenerator` appears to be both "i am an iterator" *and* "you can get an iterator from me".
+  // (So, you can *also* cast it to `AsyncIterator<number>` -- but this you *don't* want to do,
+  // because the for-await syntax only accepts an Iter*able*, not an Iter*ator*.  Whew.)
+  // This is all very dizzying frankly but I guess that's supposed to just be the superset polyfill-maxxing la la lay.
   let plzcount = (async function* () {
     for (let i = 0; i < 3; i++) {
       yield i;
