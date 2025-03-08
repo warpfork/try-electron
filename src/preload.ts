@@ -32,3 +32,7 @@ let zow: Zow = {
 };
 
 contextBridge.exposeInMainWorld("zow", zow);
+
+contextBridge.exposeInMainWorld("pow", {
+  walkies: () => ipcRenderer.invoke("walkies"),
+});

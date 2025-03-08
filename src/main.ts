@@ -22,19 +22,25 @@ let backend: Zow = {
 app.whenReady().then(() => {
   // Register these before any window is spawned that might use them.
   ipcMain.handle("ping", backend.ping);
-  ipcMain.handle("walkies", async () => {
+  ipcMain.handle("walkies", async (evt) => {
     try {
       const dir = await opendir("./");
-      for await (const dirent of dir) console.log(dirent.name);
-      // TODO: of course I don't want to console.log here, I want to send a stream back.
-      // How shall we do that?
-      // an `AsyncIterator` appears to be what I want to get on the far side.
-      // But that's not going to survive being passed through the `structuredClone` phase of IPC, iiuc.
-      // Has anyone made a library to solve problems like this, or am I going to need to do it myself?
+      for await (const dirent of dir) {
+        // TODO: of course I don't want to console.log here, I want to send a stream back.
+        // How shall we do that?
+        // an `AsyncIterator` appears to be what I want to get on the far side.
+        // But that's not going to survive being passed through the `structuredClone` phase of IPC, iiuc.
+        // Has anyone made a library to solve problems like this, or am I going to need to do it myself?
+        console.log("walking:", dirent)
+        // Placeholder: blindly inventing another channel name here for the stream of replies.  I don't see another plausible way forward.
+        evt.sender.send("walkies-123", dirent) // There's nothing to await here.  This seems problematic.  Showstopping, even.
+      }
+      return "done"
     } catch (err) {
       console.error(err);
     }
   });
+  // Wild fun fact: you can also `evt.sender.executeJavaScript(code)` to send a string of JS over, and get its result, too.
 
   var win: Electron.BrowserWindow = new BrowserWindow({
     width: 800,

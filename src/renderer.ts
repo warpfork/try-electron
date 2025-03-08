@@ -45,3 +45,15 @@ const func = async () => {
 };
 
 func();
+
+declare global {
+  interface Window {
+    pow: {
+      walkies: () => Promise<string>
+    };
+  }
+}
+const sheesh = async () => {
+  console.log(await window.pow.walkies());
+};
+sheesh();
