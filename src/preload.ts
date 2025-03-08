@@ -35,4 +35,14 @@ contextBridge.exposeInMainWorld("zow", zow);
 
 contextBridge.exposeInMainWorld("pow", {
   walkies: () => ipcRenderer.invoke("walkies"),
+  counter: () => (async function* () {
+    for (let i = 0; i < 1000; i++) {
+      yield i;
+    }
+  })(),
+  wat: () => new Wat(),
 });
+
+class Wat {
+  plz(): string { return "foo" }
+}

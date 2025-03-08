@@ -50,10 +50,22 @@ declare global {
   interface Window {
     pow: {
       walkies: () => Promise<string>
+      counter: () => AsyncGenerator<number>
+      wat: () => any
     };
   }
 }
 const sheesh = async () => {
   console.log(await window.pow.walkies());
+  console.log("okay, now then")
+
+  //console.log("wat:", window.pow.wat()) // IS an object.
+  //console.log("watplz:", window.pow.wat().plz()) // mysteriously DOES NOT have this method.
+
+  // and this... errors with "An object could not be cloned".  Okayyyyyyy
+  // the error points at the `.counter()` part.
+  for await (const n of window.pow.counter()) {
+    console.log("counter = ", n)
+  }
 };
 sheesh();
