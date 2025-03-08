@@ -62,6 +62,16 @@ const sheesh = async () => {
   console.log("wat:", window.pow.wat()) // IS an object.  DOES copy the properties.
   // console.log("watplz:", window.pow.wat().plz()) // mysteriously DOES NOT have this method.  ...yeah, is not type Wat; is type Object.
 
+  // sanity check, does this syntax literally even work.  okay, yes.
+  let plzcount = (async function* () {
+    for (let i = 0; i < 3; i++) {
+      yield i;
+    }
+  })()
+  for await (const n of plzcount) {
+    console.log("plzcounter = ", n)
+  }
+
   // and this... errors with "An object could not be cloned".  Okayyyyyyy
   // the error points at the `.counter()` part.
   for await (const n of window.pow.counter()) {

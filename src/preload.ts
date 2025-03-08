@@ -55,7 +55,7 @@ let state = 0
 contextBridge.exposeInMainWorld("pow", {
   walkies: () => ipcRenderer.invoke("walkies"),
   counter: () => (async function* () {
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 4; i++) {
       yield i;
     }
   })(),
