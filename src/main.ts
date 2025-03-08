@@ -8,9 +8,20 @@ import { opendir } from "node:fs/promises";
 
 // app.relaunch();
 
+import type { Zow } from "./lib/zow.ts";
+
+// We can assert we implemented the whole backend like this!
+// It's not, um, entirely correct, though.
+// The function signatures here should permit having event params.  So... much more to do here.
+let backend: Zow = {
+  ping: function (): Promise<string> {
+    return Promise.resolve("pong");
+  }
+}
+
 app.whenReady().then(() => {
   // Register these before any window is spawned that might use them.
-  ipcMain.handle("ping", () => "pong");
+  ipcMain.handle("ping", backend.ping);
   ipcMain.handle("walkies", async () => {
     try {
       const dir = await opendir("./");
