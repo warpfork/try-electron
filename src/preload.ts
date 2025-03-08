@@ -35,6 +35,12 @@ import { contextBridge, ipcRenderer } from "electron";
 // (And that very much includes AsyncIterators, AsyncGenerators, or anything else of use.)
 //
 // At least.  As far as I can tell.
+//
+// I really don't understand what the purpose of this preload phase is, frankly.
+// It is so very, very limited that I can't imagine it doing anything but proxying calls dumbly.
+// It looks to me entirely like boilerplate that I do not need and literally cannot derive benefit from.
+// Perhaps there is something I'm missing about the mystical magical security gains of something
+// that simply makes me repeat the same strings in multiple places.  But that is... I truly don't know.
 
 contextBridge.exposeInMainWorld("versions", {
   node: () => process.versions.node,
