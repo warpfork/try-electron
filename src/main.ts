@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron/main";
+import { app, BrowserWindow, ipcMain, nativeTheme } from "electron/main";
 import path from "node:path";
 import { opendir } from "node:fs/promises";
 
@@ -7,6 +7,8 @@ import { opendir } from "node:fs/promises";
 // console.log("path(home): ", app.getPath("home"));
 
 // app.relaunch();
+
+nativeTheme.themeSource = 'dark'
 
 import type { Zow } from "./lib/zow.ts";
 
@@ -53,6 +55,9 @@ app.whenReady().then(() => {
       preload: path.join(app.getAppPath(), "preload.js"),
     },
   });
+
+  // Pretty much never not want this, frankly.
+  win.webContents.openDevTools()
 
   // This is apparently relative to wherever the main file is.
   // Which is now in a dist dir.
