@@ -50,21 +50,21 @@ declare global {
   interface Window {
     pow: {
       walkies: () => Promise<string>
-      counter: () => (() => Promise<{ val: string, done: boolean }>)
+      counter: () => Promise<() => Promise<{ val: string, exists: boolean }>>
     };
   }
 }
 
 function buildIpcStream<T>(
-  borker: () => (() => Promise<{ val: T, done: boolean }>)
+  borker: () => Promise<() => Promise<{ val: T, exists: boolean }>>
 ): AsyncGenerator<T> {
   return (async function* () {
-    let bork = borker();
+    let bork = await borker();
     let loop = true;
     while (loop) {
-      let { val, done } = await bork();
-      loop = !done;
-      yield val;
+      let { val, exists } = await bork();
+      loop = exists;
+      if (exists) yield val;
     }
   })();
 }

@@ -60,12 +60,21 @@ contextBridge.exposeInMainWorld("zow", zow);
 let state = 0
 contextBridge.exposeInMainWorld("pow", {
   walkies: () => ipcRenderer.invoke("walkies"),
-  counter: () => {
-    const schlep = ["one", "two", "three"];
-    let state = 0;
-    return (function(): Promise<{ val: string, done: boolean }> {
-      state++
-      return Promise.resolve({ val: schlep[state-1], done: state >= schlep.length })
+  counter: async () => {
+    let ugh = 0;
+    let { nonce, val, exists } = await ipcRenderer.invoke("counter")
+    console.log("preload first call of counter got", { nonce, val, exists })
+    // FIXME: hold onto those to actually yield them, or else make the first call return nothing.
+    // But also, this design is getting weird.
+    // Resisting the inner function being async is making things... unpleasant.
+    return (function(): Promise<{ val: string, exists: boolean }> {
+      ugh++;
+      if (ugh > 10) { // hacky safety fuse, because as it stands, it's real easy to busyloop if you mismatch some names, and all of this is in an effectively type-free zone.
+        return Promise.reject("fuck, man")
+      }
+      let sheesh = ipcRenderer.invoke("counter", nonce);
+      console.log("preload subsequent call of counter got", sheesh)
+      return sheesh
     })
   },
 });

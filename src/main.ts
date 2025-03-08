@@ -11,6 +11,7 @@ import { opendir } from "node:fs/promises";
 nativeTheme.themeSource = 'dark'
 
 import type { Zow } from "./lib/zow.ts";
+import { randomInt } from "node:crypto";
 
 // We can assert we implemented the whole backend like this!
 // It's not, um, entirely correct, though.
@@ -21,9 +22,24 @@ let backend: Zow = {
   }
 }
 
+let counters = new Map<number, number>
+const seq = ["blorp", "bap", "bep", "shing"]
+
 app.whenReady().then(() => {
   // Register these before any window is spawned that might use them.
   ipcMain.handle("ping", backend.ping);
+  ipcMain.handle("counter", async (evt, nonce: number | undefined) => {
+    // console.log("main counter called", evt, nonce)
+    if (nonce == undefined)  {
+      let nonce = randomInt(10000, 99999);
+      counters.set(nonce, 0)
+      return { nonce: nonce, val: seq[0], exists: true }
+    }
+    let val = counters.get(nonce)! + 1;
+    counters.set(nonce, val);
+    return { val: seq[val], exists: val < seq.length };
+    // TODO: there's never a cleanup of the counters map.
+  })
   ipcMain.handle("walkies", async (evt) => {
     try {
       const dir = await opendir("./");
@@ -36,6 +52,18 @@ app.whenReady().then(() => {
         console.log("walking:", dirent)
         // Placeholder: blindly inventing another channel name here for the stream of replies.  I don't see another plausible way forward.
         evt.sender.send("walkies-123", dirent) // There's nothing to await here.  This seems problematic.  Showstopping, even.
+
+        // I think we have to...
+        //  - make a promise;
+        //  - put it in a heap;
+        //  - await on it here;
+        //  - elsewhere: have another handler waiting for more messages from the renderer;
+        //  - and have that resolve the relevant promise from the heap.
+        // Update: no, not most of that.
+        // To have backpressure at all, we have to always be doing invoke
+        // and doing it starting from the renderer side.
+        // So, it's best of the main side is just reactive to that.
+        // State is unavoidable, but more promises aren't necessary.
       }
       return "done"
     } catch (err) {
