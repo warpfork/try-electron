@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron/main";
 import path from "node:path";
+import { opendir } from "node:fs/promises";
 
 // console.log("hellooo app!", app);
 // console.log("app path: ", app.getAppPath());
@@ -10,6 +11,19 @@ import path from "node:path";
 app.whenReady().then(() => {
   // Register these before any window is spawned that might use them.
   ipcMain.handle("ping", () => "pong");
+  ipcMain.handle("walkies", async () => {
+    try {
+      const dir = await opendir("./");
+      for await (const dirent of dir) console.log(dirent.name);
+      // TODO: of course I don't want to console.log here, I want to send a stream back.
+      // How shall we do that?
+      // an `AsyncIterator` appears to be what I want to get on the far side.
+      // But that's not going to survive being passed through the `structuredClone` phase of IPC, iiuc.
+      // Has anyone made a library to solve problems like this, or am I going to need to do it myself?
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
   var win: Electron.BrowserWindow = new BrowserWindow({
     width: 800,
