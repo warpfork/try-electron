@@ -13,6 +13,7 @@
 // I don't actually know what negative security implications that might have.
 // (I thought preload scripts are out of scope by the time content is happening?  But I'm unsure.)
 // For now, poking into that seems like cost and risk.
+// ... Yeah this is much worse than that.  It's not preload scripts that you disable sandboxing for: it's the entire renderer.  No.  Bad.
 //
 // So: I give up.  This one just stays as a javascript file.  Moving on.
 
@@ -20,6 +21,11 @@
 // I think the way forward is to more or less expose one giant object full of RPC powers,
 // and make types for that, and use those types in the main process and in the renderers,
 // and just move on.
+//
+// ... The trouble with the theory is we need all those types here, too.
+// In fact, I think we pretty much want to iterate over the types to generate all the IPC wrappers.
+//
+// This is so damned bonkers it's starting to sound like a codegen problem to me.
 
 const { contextBridge, ipcRenderer } = require("electron");
 
