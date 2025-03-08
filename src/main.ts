@@ -35,7 +35,7 @@ app.whenReady().then(() => {
       // i feel like i'm being trolled.
       //
       // preload is also a plain js file because it's not allowed to be a module.  see the file for comments on that.
-      preload: path.join(app.getAppPath(), "../src/preload.js"),
+      preload: path.join(app.getAppPath(), "preload.js"),
     },
   });
 
