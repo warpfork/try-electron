@@ -1,3 +1,11 @@
+// Oh.  Apparently you can also just assert things like this.  Okay.
+declare global {
+  interface Window {
+    versions: Versions;
+  }
+}
+let versions = window.versions;
+
 interface Versions {
   chrome(): Promise<string>;
   node(): Promise<string>;
