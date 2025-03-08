@@ -25,7 +25,9 @@ contextBridge.exposeInMainWorld("versions", {
   // we can also expose variables, not just functions
 });
 
-let zow = {
+import type { Zow } from "./lib/zow.ts";
+
+let zow: Zow = {
   ping: () => ipcRenderer.invoke("ping"),
 };
 
