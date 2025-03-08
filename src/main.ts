@@ -44,8 +44,6 @@ app.whenReady().then(() => {
       // the above is not a real error that stops anything.  just an "ERROR" in stderr, but doesn't stop anything.
       // if the file doesn't exist?  that doesn't show up except in the console in-browser -- no sign on stderr.
       // i feel like i'm being trolled.
-      //
-      // preload is also a plain js file because it's not allowed to be a module.  see the file for comments on that.
       preload: path.join(app.getAppPath(), "preload.js"),
     },
   });
