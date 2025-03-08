@@ -18,6 +18,24 @@
 // const { contextBridge, ipcRenderer } = require("electron");
 import { contextBridge, ipcRenderer } from "electron";
 
+// The values permitted to pass through the expose methods of contextBridge are EXTREMELY LIMITED.
+// See https://www.electronjs.org/docs/latest/api/context-bridge#api for an enumeration, or, quote:
+//  > must be a `Function`, `string`, `number`, `Array`, `boolean`,
+//  > or an object whose keys are strings and values are a `Function`, `string`, `number`, `Array`, `boolean`,
+//  > or another nested object that meets the same conditions.
+//
+// But Wait!  There's More!
+// When you pass a function, that creates a proxy that calls back across the context gap.
+// The function can demonstrably increment state here in the preload context, and it sticks.
+// HOWEVER... it seems that whatever is *returned* by that function... is subjected to structuredClone all over again.
+// So, if you try to pass a class out: no, you will not really succeed.
+// (You *can* pass out a method; it will generate another proxy.)
+//
+// That means: we still cannot construct classes that do anything useful in this file!
+// (And that very much includes AsyncIterators, AsyncGenerators, or anything else of use.)
+//
+// At least.  As far as I can tell.
+
 contextBridge.exposeInMainWorld("versions", {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
@@ -33,6 +51,7 @@ let zow: Zow = {
 
 contextBridge.exposeInMainWorld("zow", zow);
 
+let state = 0
 contextBridge.exposeInMainWorld("pow", {
   walkies: () => ipcRenderer.invoke("walkies"),
   counter: () => (async function* () {
@@ -40,9 +59,15 @@ contextBridge.exposeInMainWorld("pow", {
       yield i;
     }
   })(),
-  wat: () => new Wat(),
+  wat: () => {
+    console.log("where does this happen?", state++)
+    let foo = new Wat();
+    console.log("the wat from the preload side:", foo)
+    return foo
+     },
 });
 
 class Wat {
+  readonly hello = "hey?"
   plz(): string { return "foo" }
 }

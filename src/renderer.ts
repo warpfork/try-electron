@@ -59,8 +59,8 @@ const sheesh = async () => {
   console.log(await window.pow.walkies());
   console.log("okay, now then")
 
-  //console.log("wat:", window.pow.wat()) // IS an object.
-  //console.log("watplz:", window.pow.wat().plz()) // mysteriously DOES NOT have this method.
+  console.log("wat:", window.pow.wat()) // IS an object.  DOES copy the properties.
+  // console.log("watplz:", window.pow.wat().plz()) // mysteriously DOES NOT have this method.  ...yeah, is not type Wat; is type Object.
 
   // and this... errors with "An object could not be cloned".  Okayyyyyyy
   // the error points at the `.counter()` part.
