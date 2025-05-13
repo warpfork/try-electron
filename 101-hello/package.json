@@ -7,10 +7,7 @@
     "build": "bun run build:most && bun run build:preload",
     "build:most": "bun build ./src/{main,renderer}.ts --external=electron --external=require --target=node --outdir=./dist/",
     "build:preload": "bun build ./src/preload.ts --external=electron --external=require --target=node --format=cjs --outdir=./dist/",
-    // Watch has no chance of working without getting fixup-renderer in the loop.
-    //"watch": "bun run build && bun build --watch --no-clear-screen ./src/*.ts --external=electron --target=node --outdir=./dist/ &",
-    //"startwatch": "rm -rf dist/* && bun run watch && time ./lib/electron/electron ./dist/main.js",
-    "start": "rm -rf dist/* && bun run build && time ./lib/electron/electron ./dist/main.js"
+    "start": "rm -rf dist/* && bun run build && time ../lib/electron/electron ./dist/main.js"
   },
   "type": "module",
   "devDependencies": {
