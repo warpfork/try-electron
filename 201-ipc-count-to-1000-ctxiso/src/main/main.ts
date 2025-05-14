@@ -34,3 +34,11 @@ app.whenReady().then(async () => {
 	await win.loadFile("../../" + pagePath);
 	console.timeLog("main", "win.loadFile returned", new Date());
 });
+
+// This is a bit silly, but just to be very literally comparative.
+console.time("plaincount");
+let easycount = 0;
+for (let i = 0; i < 1000; i++) {
+	easycount++;
+}
+console.timeEnd("plaincount");

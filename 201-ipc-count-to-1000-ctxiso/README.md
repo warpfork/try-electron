@@ -34,7 +34,19 @@ When the content is a simple single number.
 Easy to test: move the `await` on the `await window.ctrl.count` down
 a couple lines, so that the `${answer}` interpolation in the logging is `${await answer}`.
 
-It seems to be about 3x faster.
+It seems to be about 3x faster.  (That's still pretty "not fast" overall, though.)
+
+
+### Contextualization: how fast can javascript just... count to a thousand?
+
+Counting to 1000 in the main process takes about 0.059ms.
+Mind the decimal point: that's one half of one tenth of one millisecond.
+(That's probably in the realm where the measurement is not very precise anyway, because it's just entirely too fast to clock it sensibly.)
+
+
+### Contextualization: okay, but does this overhead matter in _real_ tasks?
+
+See other demos for more examination of that.
 
 
 
