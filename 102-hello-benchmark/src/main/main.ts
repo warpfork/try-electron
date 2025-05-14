@@ -1,16 +1,11 @@
 import { app, BrowserWindow, ipcMain } from "electron/main";
 import path from "node:path";
 
-const start = new Date();
-console.log("main started", start);
+console.time("main");
+console.timeLog("main", "main started", new Date());
 
 ipcMain.handle("quit", () => {
-	const now = new Date();
-	console.log(
-		"quit instruction received in main",
-		now,
-		now.getMilliseconds() - start.getMilliseconds(),
-	);
+	console.timeLog("main", "quit instruction received in main", new Date());
 	app.quit();
 });
 
