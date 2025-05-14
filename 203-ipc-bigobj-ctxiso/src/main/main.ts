@@ -27,11 +27,12 @@ let state = {
 		return arr;
 	})(),
 };
-console.log(
-	"test data as json string is length=",
-	JSON.stringify(state).length,
-);
 console.timeLog("main", "test data initialized", new Date());
+const state_as_json = JSON.stringify(state);
+console.log("test data as json string is length=", state_as_json.length);
+console.timeLog("main", "test data measurement done", new Date());
+JSON.parse(state_as_json);
+console.timeLog("main", "test data parse measurement done", new Date());
 ipcMain.handle("count", () => {
 	state.count++;
 	return state; // yes, the whole thing!  This is to test the practical cost of structuredClone.
