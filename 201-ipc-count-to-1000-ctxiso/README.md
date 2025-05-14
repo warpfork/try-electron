@@ -1,4 +1,4 @@
-Demo: How fast is IPC?  renderer-to-main invoke and answer, with contextIsolation on.
+Demo: How fast is IPC?  renderer-to-main invoke and answer, simple counting, with contextIsolation on.
 ========
 
 This demo has a very simple application that starts up,
