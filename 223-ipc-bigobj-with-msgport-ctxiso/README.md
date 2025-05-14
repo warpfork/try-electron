@@ -17,6 +17,9 @@ Results
 
 summary todo
 
+hypothesis: having contextIsolation on in the earlier demos means `structuredClone` is happening *twice*:
+once as the value moves from main to preload, and again as it moves from preload to renderer.
+That would explain it being about twice as slow as this code using a `MessagePort` (which *also* uses `structuredClone` internally, IIUC).
 
 
 Sample Output
