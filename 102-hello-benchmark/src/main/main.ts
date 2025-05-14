@@ -20,5 +20,7 @@ app.whenReady().then(async () => {
 	win.webContents.openDevTools();
 
 	const pagePath = "src/renderer/index.html";
-	win.loadFile("../../" + pagePath);
+	console.timeLog("main", "invoking win.loadFile", new Date());
+	await win.loadFile("../../" + pagePath);
+	console.timeLog("main", "win.loadFile returned", new Date());
 });
