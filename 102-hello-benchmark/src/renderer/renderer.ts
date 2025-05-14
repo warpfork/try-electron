@@ -1,9 +1,11 @@
 declare global {
 	interface Window {
-		ctrl: {
-			quit: () => void;
-		};
+		ctrl: Ctrl;
 	}
+}
+
+interface Ctrl {
+	quit(): void;
 }
 
 console.log("renderer loaded");
