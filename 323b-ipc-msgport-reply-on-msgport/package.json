@@ -1,0 +1,21 @@
+{
+  "name": "try-electron35",
+	"version": "0.0.1",
+	"description": "Hello World!",
+	"scripts": {
+		"prep": "ELECTRON_SKIP_BINARY_DOWNLOAD=1 bun install",
+		"build": "bun run build:most && bun run build:preload",
+		"build:most": "bun build ./src/{main/main.ts,worker/worker.ts,renderer/renderer.ts} --external=electron --target=node --outdir=./dist/",
+		"build:preload": "bun build ./src/preload/preload.ts --external=electron --target=node --outdir=./dist/preload/ --format=cjs",
+		"start": "rm -rf dist/* && bun run build && time ../lib/electron/electron ./dist/main/main.js --unhandled-rejections=strict --trace-warnings"
+	},
+	"type": "module",
+	"devDependencies": {
+		"electron": "^35"
+	},
+	"dependencies": {
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
+}
